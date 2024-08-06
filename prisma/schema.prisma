@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js" // Generates the Prisma client for JavaScript/TypeScript
+}
+
+datasource db {
+  provider = "mongodb" // Specifies that the database provider is MongoDB
+  url      = env("DATABASE_URL") // Database URL is fetched from environment variables
+}
+
+// Enum for subscription plans
+enum Plan {
+  free
+  premium
+}
+
+// Enum for subscription periods
+enum SubscriptionPeriod {
+  monthly
+  yearly
+}
+
+// User model representing a user in the system
+model User {
+  id         String  @id @default(cuid()) @map("_id") // Unique ID for the user, using cuid() for uniqueness
+  email      String  @unique // User's email, must be unique
+  name       String? // Optional user's name
+  image      String? // Optional user's profile image
+  plan       Plan    @default(free) // User's plan, defaults to 'free'
+  customerId String? @unique // Optional unique Stripe customer ID for the user
+
+  Subscription Subscription? // Optional relation to the Subscription model
+
+  createdAt DateTime @default(now()) // Timestamp for when the user was created
+  updatedAt DateTime @updatedAt // Timestamp for when the user was last updated
+}
+
+// Subscription model representing a subscription in the system
+model Subscription {
+  id     String             @id @default(cuid()) @map("_id") // Unique ID for the subscription, using cuid() for uniqueness
+  userId String             @unique // Unique user ID associated with this subscription
+  plan   Plan // Plan type for the subscription (free or premium)
+  period SubscriptionPeriod // Subscription period (monthly or yearly)
+
+  startDate DateTime @default(now()) // Timestamp for when the subscription starts
+  endDate   DateTime // Timestamp for when the subscription ends
+
+  createdAt DateTime @default(now()) // Timestamp for when the subscription was created
+  updatedAt DateTime @updatedAt // Timestamp for when the subscription was last updated
+
+  User User @relation(fields: [userId], references: [id]) // Relation to the User model
+}
