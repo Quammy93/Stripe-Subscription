@@ -36,7 +36,7 @@ const pricingList: PricingProps[] = [
 	{
 		title: "Premium",
 		popular: 1,
-		price: 10,
+		price: 5,
 		description: "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
 		buttonText: "Buy Now",
 		benefitList: ["4 Team member", "4 GB Storage", "Upto 6 pages", "Priority support", "lorem ipsum dolor"],
@@ -47,7 +47,7 @@ const pricingList: PricingProps[] = [
 	{
 		title: "Enterprise",
 		popular: 0,
-		price: 99,
+		price: 50,
 		description: "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
 		buttonText: "Buy Now",
 		benefitList: ["10 Team member", "8 GB Storage", "Upto 10 pages", "Priority support", "lorem ipsum dolor"],
